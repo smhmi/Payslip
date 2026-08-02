@@ -19,9 +19,9 @@ const EMPLOYEES = {
         pay: ""
       },
       "تیر": {
-        work: "1405-01-work.jpg",
-        slip: "1405-01-slip.jpg",
-        pay: "1405-01-pay.jpg"
+        work: "1405-04-work.jpg",
+        slip: "1405-04-slip.jpg",
+        pay: "1405-04-pay.jpg"
       },
       "مرداد": {
         work: "",

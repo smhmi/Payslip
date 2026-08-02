@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فیش حقوقی پرسنلی - داروخانه قوامین</title>
+    <title>آرشیو فیش‌های حقوقی - داروخانه قوامین</title>
     <style>
         * { box-sizing: border-box; font-family: Tahoma, Arial, sans-serif; }
         body { margin: 0; background: #f4f6f8; color: #222; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #ffffff; padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; }
         .header h1 { margin: 0; font-size: 22px; color: #0f172a; }
         .header p { margin: 8px 0 0; color: #64748b; font-size: 14px; }
-        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; flex: 1; }
+        .container { max-width: 700px; margin: 40px auto; padding: 0 20px; flex: 1; }
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,.05); text-align: center; }
         .card h2 { margin-top: 0; font-size: 18px; color: #1e293b; }
         .form-group { margin: 20px 0; text-align: right; }
@@ -19,11 +19,24 @@
         .form-control:focus { border-color: #1677ff; }
         .btn { display: block; width: 100%; padding: 13px; background: #1677ff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
         .btn:hover { background: #0050b3; }
-        .payslip-container { display: none; margin-top: 20px; border-top: 2px dashed #e2e8f0; padding-top: 25px; }
-        .payslip-image { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
-        .download-btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px; }
-        .download-btn:hover { background: #059669; }
         .error-message { color: #ef4444; font-size: 14px; margin-top: 10px; display: none; }
+        
+        /* بخش لیست ماه‌ها */
+        .payslip-container { display: none; margin-top: 20px; border-top: 2px dashed #e2e8f0; padding-top: 25px; }
+        .month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+        @media (max-width: 480px) {
+            .month-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .month-btn { padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.2s; color: #334155; }
+        .month-btn:hover { background: #e2e8f0; border-color: #cbd5e1; }
+        .month-btn.active { background: #1677ff; color: white; border-color: #1677ff; }
+        
+        /* بخش نمایش فیش انتخاب شده */
+        .viewer-box { display: none; margin-top: 25px; padding-top: 25px; border-top: 1px solid #e2e8f0; }
+        .payslip-image { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .download-btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .download-btn:hover { background: #059669; }
+        
         .footer { text-align: center; color: #94a3b8; font-size: 13px; padding: 20px; border-top: 1px solid #e2e8f0; background: #fff; }
     </style>
 </head>
@@ -36,26 +49,36 @@
 
 <main class="container">
     <div class="card">
-        <!-- نام کارمند به صورت پویا توسط جاوااسکریپت جایگذاری می‌شود -->
-        <h2 id="employee-title">بارگذاری اطلاعات...</h2>
+        <h2 id="employee-title">بارگذاری...</h2>
         <p style="color: #64748b; font-size: 14px;">جهت احراز هویت، لطفا رمز عبور خود را وارد کنید.</p>
 
-        <!-- فرم احراز هویت -->
+        <!-- بخش ورود رمز -->
         <div id="auth-section">
             <div class="form-group">
                 <label for="password">کلمه عبور (کد ملی یا رمز اختصاصی):</label>
                 <input type="password" id="password" class="form-control" placeholder="••••••••">
             </div>
-            <button class="btn" onclick="verifyPassword()">ورود و مشاهده</button>
+            <button class="btn" onclick="verifyPassword()">ورود و مشاهده لیست فیش‌ها</button>
             <div id="error-msg" class="error-message">کلمه عبور وارد شده صحیح نیست.</div>
         </div>
 
-        <!-- بخش نمایش فیش پس از تایید رمز -->
+        <!-- بخش آرشیو ماه‌ها پس از تایید هویت -->
         <div id="payslip-section" class="payslip-container">
-            <h3 style="color: #10b981; margin-bottom: 20px;">هویت شما تایید شد ✅</h3>
-            <img id="payslip-img" src="" alt="فیش حقوقی" class="payslip-image">
-            <br>
-            <a id="download-link" href="" download="" class="download-btn">دانلود فایل فیش حقوقی</a>
+            <h3 style="color: #10b981; margin-bottom: 5px;">هویت شما تایید شد ✅</h3>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">لطفاً ماه مورد نظر خود را جهت مشاهده فیش انتخاب کنید:</p>
+            
+            <!-- دکمه‌های ماه‌های سال -->
+            <div class="month-grid" id="months-wrapper">
+                <!-- دکمه‌ها به صورت خودکار با جاوااسکریپت ساخته می‌شوند -->
+            </div>
+
+            <!-- کادر نمایش تصویر فیش حقوقی ماه انتخاب شده -->
+            <div id="viewer-box" class="viewer-box">
+                <h4 id="selected-month-title" style="margin-top: 0; color: #1e293b;"></h4>
+                <img id="payslip-img" src="" alt="فیش حقوقی" class="payslip-image">
+                <br>
+                <a id="download-link" href="" download="" class="download-btn">دانلود فیش این ماه</a>
+            </div>
         </div>
     </div>
 </main>
@@ -66,42 +89,97 @@
 
 <script>
     // ==========================================
-    // ⚙️ تنظیمات اختصاصی این کارمند ⚙️
+    // ⚙️ تنظیمات اختصاصی کارمند (مهرزاد) ⚙️
     // ==========================================
     const CONFIG = {
-        employeeName: "مهرزاد عزیز",              // نام کارمند برای نمایش در خوش‌آمدگویی
-        password: "رمز عبور یا کدملی شخص",        // رمز عبوری که کارمند باید وارد کند
-        payslipFile: "mehrzad-fish.jpg"         // نام دقیق فایل عکس فیش حقوقی در گیت‌هاب
+        employeeName: "مهرزاد عزیز",
+        password: "123456", // رمز عبور مهرزاد
+        
+        // لیست ماه‌های فعال که تصویر فیش آنها را آپلود کرده‌اید:
+        // جلوی هر ماه، نام دقیق فایل عکسی که آپلود کردید را بنویسید.
+        // اگر فیش ماهی هنوز آماده نیست، مقدار آن را "" (خالی) بگذارید تا دکمه آن غیرفعال باشد.
+        payslips: {
+            "فروردین": "mehrzad-1405-01.jpg",
+            "اردیبهشت": "mehrzad-1405-02.jpg",
+            "خرداد": "mehrzad-1405-03.jpg",
+            "تیر": "",
+            "مرداد": "",
+            "شهریور": "",
+            "مهر": "",
+            "آبان": "",
+            "آذر": "",
+            "دی": "",
+            "بهمن": "",
+            "اسفند": ""
+        }
     };
     // ==========================================
 
-    // قرار دادن نام کارمند در عنوان صفحه
-    document.getElementById('employee-title').innerText = "مشاهده فیش حقوقی " + CONFIG.employeeName;
+    document.getElementById('employee-title').innerText = "آرشیو فیش‌های حقوقی " + CONFIG.employeeName;
 
     function verifyPassword() {
         const passwordInput = document.getElementById('password').value;
         const errorMsg = document.getElementById('error-msg');
         const authSection = document.getElementById('auth-section');
         const payslipSection = document.getElementById('payslip-section');
-        const imgTag = document.getElementById('payslip-img');
-        const downloadLink = document.getElementById('download-link');
 
         if (passwordInput === CONFIG.password) {
-            // ۱. تنظیم آدرس عکس و فایل دانلود
-            imgTag.src = CONFIG.payslipFile;
-            downloadLink.href = CONFIG.payslipFile;
-            downloadLink.download = "Fish_" + CONFIG.employeeName.replace(/\s+/g, '_') + ".jpg";
-
-            // ۲. نمایش بخش فیش حقوقی
             errorMsg.style.display = 'none';
             authSection.style.display = 'none';
             payslipSection.style.display = 'block';
+            buildMonthButtons();
         } else {
             errorMsg.style.display = 'block';
         }
+    }
+
+    // ساخت دکمه‌های ماه‌ها به صورت خودکار
+    function buildMonthButtons() {
+        const wrapper = document.getElementById('months-wrapper');
+        wrapper.innerHTML = ''; // پاک کردن محتوای قبلی
+
+        for (const [monthName, fileName] of Object.entries(CONFIG.payslips)) {
+            const btn = document.createElement('button');
+            btn.className = 'month-btn';
+            btn.innerText = monthName;
+
+            if (fileName === "") {
+                // اگر فیش حقوقی برای این ماه تعریف نشده باشد
+                btn.disabled = true;
+                btn.style.opacity = '0.4';
+                btn.style.cursor = 'not-allowed';
+                btn.title = "فیش این ماه هنوز صادر نشده است";
+            } else {
+                // در صورت وجود فایل، رویداد کلیک اضافه می‌شود
+                btn.onclick = function() {
+                    // حذف کلاس اکتیو از دکمه‌های دیگر
+                    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    showPayslip(monthName, fileName);
+                };
+            }
+            wrapper.appendChild(btn);
+        }
+    }
+
+    // نمایش فیش مربوط به ماه انتخاب شده
+    function showPayslip(monthName, fileName) {
+        const viewerBox = document.getElementById('viewer-box');
+        const imgTag = document.getElementById('payslip-img');
+        const downloadLink = document.getElementById('download-link');
+        const titleTag = document.getElementById('selected-month-title');
+
+        titleTag.innerText = "فیش حقوقی ماه " + monthName;
+        imgTag.src = fileName;
+        downloadLink.href = fileName;
+        downloadLink.download = "Fish_" + CONFIG.employeeName.replace(/\s+/g, '_') + "_" + monthName + ".jpg";
+
+        viewerBox.style.display = 'block';
+        
+        // اسکرول نرم به بخش نمایش فیش
+        viewerBox.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
 </body>
 </html>
-

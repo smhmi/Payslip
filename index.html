@@ -86,101 +86,95 @@
 <footer class="footer">
     سامانه فیش حقوقی - داروخانه قوامین | پشتیبانی در پیام‌رسان بله: 09201074887
 </footer>
+<script src="data.js"></script>
 
 <script>
-    // ==========================================
-    // ⚙️ تنظیمات اختصاصی کارمند (مهرزاد) ⚙️
-    // ==========================================
-    const EMPLOYEES  = {"100": {
-        employeeName: "مهرزاد عزیز",
-        password: "123456", // رمز عبور مهرزاد
-        folder: "100",
-        
-        // لیست ماه‌های فعال که تصویر فیش آنها را آپلود کرده‌اید:
-        // جلوی هر ماه، نام دقیق فایل عکسی که آپلود کردید را بنویسید.
-        // اگر فیش ماهی هنوز آماده نیست، مقدار آن را "" (خالی) بگذارید تا دکمه آن غیرفعال باشد.
-        payslips: {
-            "فروردین": "mehrzad-1405-01.jpg",
-            "اردیبهشت": "mehrzad-1405-02.jpg",
-            "خرداد": "mehrzad-1405-03.jpg",
-            "تیر": "",
-            "مرداد": "",
-            "شهریور": "",
-            "مهر": "",
-            "آبان": "",
-            "آذر": "",
-            "دی": "",
-            "بهمن": "",
-            "اسفند": ""
-        }}
-    };
-    // ==========================================
+    const employeeId = new URLSearchParams(window.location.search).get("id");
+    const CONFIG = EMPLOYEES[employeeId];
 
-    document.getElementById('employee-title').innerText = "آرشیو فیش‌های حقوقی " + CONFIG.employeeName;
+    const employeeTitle = document.getElementById("employee-title");
+    const authSection = document.getElementById("auth-section");
+
+    if (!CONFIG) {
+        employeeTitle.innerText = "لینک پرسنل معتبر نیست";
+        authSection.innerHTML = `
+            <p style="color:#ef4444; line-height:2;">
+                شماره پرسنلی موجود نیست یا لینک واردشده صحیح نیست.
+            </p>
+        `;
+    } else {
+        employeeTitle.innerText = "آرشیو فیش‌های حقوقی " + CONFIG.employeeName;
+    }
 
     function verifyPassword() {
-        const passwordInput = document.getElementById('password').value;
-        const errorMsg = document.getElementById('error-msg');
-        const authSection = document.getElementById('auth-section');
-        const payslipSection = document.getElementById('payslip-section');
+        if (!CONFIG) return;
+
+        const passwordInput = document.getElementById("password").value;
+        const errorMsg = document.getElementById("error-msg");
+        const payslipSection = document.getElementById("payslip-section");
 
         if (passwordInput === CONFIG.password) {
-            errorMsg.style.display = 'none';
-            authSection.style.display = 'none';
-            payslipSection.style.display = 'block';
+            errorMsg.style.display = "none";
+            authSection.style.display = "none";
+            payslipSection.style.display = "block";
             buildMonthButtons();
         } else {
-            errorMsg.style.display = 'block';
+            errorMsg.style.display = "block";
         }
     }
 
-    // ساخت دکمه‌های ماه‌ها به صورت خودکار
     function buildMonthButtons() {
-        const wrapper = document.getElementById('months-wrapper');
-        wrapper.innerHTML = ''; // پاک کردن محتوای قبلی
+        const wrapper = document.getElementById("months-wrapper");
+        wrapper.innerHTML = "";
 
         for (const [monthName, fileName] of Object.entries(CONFIG.payslips)) {
-            const btn = document.createElement('button');
-            btn.className = 'month-btn';
+            const btn = document.createElement("button");
+            btn.className = "month-btn";
             btn.innerText = monthName;
 
-            if (fileName === "") {
-                // اگر فیش حقوقی برای این ماه تعریف نشده باشد
+            if (!fileName) {
                 btn.disabled = true;
-                btn.style.opacity = '0.4';
-                btn.style.cursor = 'not-allowed';
+                btn.style.opacity = "0.4";
+                btn.style.cursor = "not-allowed";
                 btn.title = "فیش این ماه هنوز صادر نشده است";
             } else {
-                // در صورت وجود فایل، رویداد کلیک اضافه می‌شود
-                btn.onclick = function() {
-                    // حذف کلاس اکتیو از دکمه‌های دیگر
-                    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+                btn.onclick = function () {
+                    document.querySelectorAll(".month-btn")
+                        .forEach(button => button.classList.remove("active"));
+
+                    btn.classList.add("active");
                     showPayslip(monthName, fileName);
                 };
             }
+
             wrapper.appendChild(btn);
         }
     }
 
-    // نمایش فیش مربوط به ماه انتخاب شده
     function showPayslip(monthName, fileName) {
-        const viewerBox = document.getElementById('viewer-box');
-        const imgTag = document.getElementById('payslip-img');
-        const downloadLink = document.getElementById('download-link');
-        const titleTag = document.getElementById('selected-month-title');
+        const filePath = "employees/" + employeeId + "/" + fileName;
+        const viewerBox = document.getElementById("viewer-box");
+        const imgTag = document.getElementById("payslip-img");
+        const downloadLink = document.getElementById("download-link");
+        const titleTag = document.getElementById("selected-month-title");
 
         titleTag.innerText = "فیش حقوقی ماه " + monthName;
-        imgTag.src = fileName;
-        downloadLink.href = fileName;
-        downloadLink.download = "Fish_" + CONFIG.employeeName.replace(/\s+/g, '_') + "_" + monthName + ".jpg";
+        imgTag.src = filePath;
+        imgTag.alt = "فیش حقوقی " + CONFIG.employeeName + " - " + monthName;
+        downloadLink.href = filePath;
+        downloadLink.download = "Fish_" + employeeId + "_" + monthName + ".jpg";
 
-        viewerBox.style.display = 'block';
-        
-        // اسکرول نرم به بخش نمایش فیش
-        viewerBox.scrollIntoView({ behavior: 'smooth' });
+        viewerBox.style.display = "block";
+        viewerBox.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+
+    document.getElementById("password").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            verifyPassword();
+        }
+    });
 </script>
+
 
 </body>
 </html>

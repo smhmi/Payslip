@@ -31,7 +31,14 @@
         .month-btn:hover { background: #e2e8f0; border-color: #cbd5e1; }
         .month-btn.active { background: #1677ff; color: white; border-color: #1677ff; }
         
-        /* بخش نمایش فیش انتخاب شده */
+        /* بخش انتخاب نوع سند (ساعت، فیش، واریزی) */
+        .doc-selector { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .doc-btn { flex: 1; padding: 10px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: all 0.2s; color: #475569; }
+        .doc-btn:hover:not(:disabled) { background: #e2e8f0; }
+        .doc-btn.active { background: #0f172a; color: white; border-color: #0f172a; }
+        .doc-btn:disabled { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+
+        /* بخش نمایش سند انتخاب شده */
         .viewer-box { display: none; margin-top: 25px; padding-top: 25px; border-top: 1px solid #e2e8f0; }
         .payslip-image { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .download-btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
@@ -65,19 +72,24 @@
         <!-- بخش آرشیو ماه‌ها پس از تایید هویت -->
         <div id="payslip-section" class="payslip-container">
             <h3 style="color: #10b981; margin-bottom: 5px;">هویت شما تایید شد ✅</h3>
-            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">لطفاً ماه مورد نظر خود را جهت مشاهده فیش انتخاب کنید:</p>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">لطفاً ماه مورد نظر خود را جهت مشاهده انتخاب کنید:</p>
             
             <!-- دکمه‌های ماه‌های سال -->
-            <div class="month-grid" id="months-wrapper">
-                <!-- دکمه‌ها به صورت خودکار با جاوااسکریپت ساخته می‌شوند -->
+            <div class="month-grid" id="months-wrapper"></div>
+
+            <!-- بخش انتخاب نوع سند (بعد از کلیک روی ماه ظاهر می‌شود) -->
+            <div id="doc-selector-wrapper" class="doc-selector" style="display: none;">
+                <button id="btn-work" class="doc-btn" onclick="selectDocType('work')">⏱️ ساعت کارکرد</button>
+                <button id="btn-slip" class="doc-btn" onclick="selectDocType('slip')">💵 فیش حقوقی</button>
+                <button id="btn-pay" class="doc-btn" onclick="selectDocType('pay')">💳 رسید واریزی</button>
             </div>
 
-            <!-- کادر نمایش تصویر فیش حقوقی ماه انتخاب شده -->
+            <!-- کادر نمایش تصویر مدرک انتخاب شده -->
             <div id="viewer-box" class="viewer-box">
                 <h4 id="selected-month-title" style="margin-top: 0; color: #1e293b;"></h4>
-                <img id="payslip-img" src="" alt="فیش حقوقی" class="payslip-image">
+                <img id="payslip-img" src="" alt="مدرک حقوقی" class="payslip-image">
                 <br>
-                <a id="download-link" href="" download="" class="download-btn">دانلود فیش این ماه</a>
+                <a id="download-link" href="" download="" class="download-btn">دانلود این فایل</a>
             </div>
         </div>
     </div>
@@ -86,6 +98,8 @@
 <footer class="footer">
     سامانه فیش حقوقی - داروخانه قوامین | پشتیبانی در پیام‌رسان بله: 09201074887
 </footer>
+
+<!-- فراخوانی اطلاعات پرسنل -->
 <script src="data.js"></script>
 
 <script>
@@ -95,20 +109,18 @@
     const employeeTitle = document.getElementById("employee-title");
     const authSection = document.getElementById("auth-section");
 
+    let currentSelectedMonth = "";
+    let currentSelectedMonthData = null;
+
     if (!CONFIG) {
         employeeTitle.innerText = "لینک پرسنل معتبر نیست";
-        authSection.innerHTML = `
-            <p style="color:#ef4444; line-height:2;">
-                شماره پرسنلی موجود نیست یا لینک واردشده صحیح نیست.
-            </p>
-        `;
+        authSection.innerHTML = `<p style="color:#ef4444; line-height:2;">شماره پرسنلی موجود نیست یا لینک واردشده صحیح نیست.</p>`;
     } else {
         employeeTitle.innerText = "آرشیو فیش‌های حقوقی " + CONFIG.employeeName;
     }
 
     function verifyPassword() {
         if (!CONFIG) return;
-
         const passwordInput = document.getElementById("password").value;
         const errorMsg = document.getElementById("error-msg");
         const payslipSection = document.getElementById("payslip-section");
@@ -127,42 +139,108 @@
         const wrapper = document.getElementById("months-wrapper");
         wrapper.innerHTML = "";
 
-        for (const [monthName, fileName] of Object.entries(CONFIG.payslips)) {
+        // لیست ماه‌ها بر اساس ترتیب سال
+        const months = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+
+        months.forEach(monthName => {
             const btn = document.createElement("button");
             btn.className = "month-btn";
             btn.innerText = monthName;
 
-            if (!fileName) {
+            const monthData = CONFIG.payslips && CONFIG.payslips[monthName];
+            
+            // بررسی اینکه آیا حداقل یکی از مدارک در این ماه وجود دارد یا خیر
+            const hasAnyDoc = monthData && (monthData.work || monthData.slip || monthData.pay);
+
+            if (!hasAnyDoc) {
                 btn.disabled = true;
                 btn.style.opacity = "0.4";
                 btn.style.cursor = "not-allowed";
-                btn.title = "فیش این ماه هنوز صادر نشده است";
+                btn.title = "مدارکی برای این ماه صادر نشده است";
             } else {
                 btn.onclick = function () {
-                    document.querySelectorAll(".month-btn")
-                        .forEach(button => button.classList.remove("active"));
-
+                    document.querySelectorAll(".month-btn").forEach(button => button.classList.remove("active"));
                     btn.classList.add("active");
-                    showPayslip(monthName, fileName);
+                    handleMonthSelection(monthName, monthData);
                 };
             }
-
             wrapper.appendChild(btn);
+        });
+    }
+
+    function handleMonthSelection(monthName, monthData) {
+        currentSelectedMonth = monthName;
+        currentSelectedMonthData = monthData;
+
+        const docWrapper = document.getElementById("doc-selector-wrapper");
+        const viewerBox = document.getElementById("viewer-box");
+        
+        viewerBox.style.display = "none"; // پنهان کردن نمایشگر تا انتخاب نوع مدرک
+        docWrapper.style.display = "flex"; // نمایش دکمه‌های مدارک سه گانه
+
+        // فعال/غیرفعال کردن دکمه‌ها براساس موجود بودن فایل
+        updateDocButtonState("btn-work", monthData.work);
+        updateDocButtonState("btn-slip", monthData.slip);
+        updateDocButtonState("btn-pay", monthData.pay);
+
+        // به صورت پیش‌فرض، اولین مدرک موجود را نمایش بده
+        if (monthData.work) {
+            selectDocType('work');
+        } else if (monthData.slip) {
+            selectDocType('slip');
+        } else if (monthData.pay) {
+            selectDocType('pay');
         }
     }
 
-    function showPayslip(monthName, fileName) {
+    function updateDocButtonState(buttonId, fileValue) {
+        const btn = document.getElementById(buttonId);
+        btn.classList.remove("active");
+        if (!fileValue) {
+            btn.disabled = true;
+        } else {
+            btn.disabled = false;
+        }
+    }
+
+    function selectDocType(type) {
+        // حذف استایل فعال از تمام دکمه‌های مدارک
+        document.querySelectorAll(".doc-btn").forEach(btn => btn.classList.remove("active"));
+        
+        let fileName = "";
+        let docTitle = "";
+
+        if (type === 'work') {
+            fileName = currentSelectedMonthData.work;
+            docTitle = "ساعت کارکرد";
+            document.getElementById("btn-work").classList.add("active");
+        } else if (type === 'slip') {
+            fileName = currentSelectedMonthData.slip;
+            docTitle = "فیش حقوقی";
+            document.getElementById("btn-slip").classList.add("active");
+        } else if (type === 'pay') {
+            fileName = currentSelectedMonthData.pay;
+            docTitle = "رسید واریزی";
+            document.getElementById("btn-pay").classList.add("active");
+        }
+
+        if (fileName) {
+            showDocument(docTitle, fileName);
+        }
+    }
+
+    function showDocument(docTitle, fileName) {
         const filePath = "employees/" + employeeId + "/" + fileName;
         const viewerBox = document.getElementById("viewer-box");
         const imgTag = document.getElementById("payslip-img");
         const downloadLink = document.getElementById("download-link");
         const titleTag = document.getElementById("selected-month-title");
 
-        titleTag.innerText = "فیش حقوقی ماه " + monthName;
+        titleTag.innerText = docTitle + " - " + currentSelectedMonth;
         imgTag.src = filePath;
-        imgTag.alt = "فیش حقوقی " + CONFIG.employeeName + " - " + monthName;
+        imgTag.alt = docTitle + " " + CONFIG.employeeName + " - " + currentSelectedMonth;
         downloadLink.href = filePath;
-        downloadLink.download = "Fish_" + employeeId + "_" + monthName + ".jpg";
+        downloadLink.download = docTitle.replace(/\s+/g, '_') + "_" + employeeId + "_" + currentSelectedMonth + ".jpg";
 
         viewerBox.style.display = "block";
         viewerBox.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -174,7 +252,6 @@
         }
     });
 </script>
-
 
 </body>
 </html>

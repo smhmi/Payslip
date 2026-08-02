@@ -3,155 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فیش حقوقی - داروخانه شبانه‌روزی قوامین</title>
+    <title>سامانه فیش حقوقی - داروخانه قوامین</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: Tahoma, Arial, sans-serif;
-        }
-
-        body {
-            margin: 0;
-            background: #f4f6f8;
-            color: #222;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: #ffffff;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 22px;
-            color: #0f172a;
-        }
-
-        .header p {
-            margin: 8px 0 0;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-            flex: 1;
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,.05);
-            text-align: center;
-        }
-
-        .card h2 {
-            margin-top: 0;
-            font-size: 18px;
-            color: #1e293b;
-        }
-
-        .form-group {
-            margin: 20px 0;
-            text-align: right;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #475569;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 16px;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: #1677ff;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 13px;
-            background: #1677ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background: #0050b3;
-        }
-
-        /* بخش نمایش فیش حقوقی */
-        .payslip-container {
-            display: none; /* در ابتدا مخفی است */
-            margin-top: 20px;
-            border-top: 2px dashed #e2e8f0;
-            padding-top: 25px;
-        }
-
-        .payslip-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 20px;
-        }
-
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 20px;
-            background: #10b981;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .download-btn:hover {
-            background: #059669;
-        }
-
-        .error-message {
-            color: #ef4444;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .footer {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 13px;
-            padding: 20px;
-            border-top: 1px solid #e2e8f0;
-            background: #fff;
-        }
+        * { box-sizing: border-box; font-family: Tahoma, Arial, sans-serif; }
+        body { margin: 0; background: #f4f6f8; color: #222; display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background: #ffffff; padding: 25px 20px; text-align: center; border-bottom: 1px solid #ddd; }
+        .header h1 { margin: 0; font-size: 24px; color: #1e293b; }
+        .header p { margin: 10px 0 0; color: #64748b; font-size: 14px; }
+        .container { max-width: 800px; margin: 50px auto; padding: 0 20px; flex: 1; }
+        .welcome-card { background: white; padding: 40px 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,.05); }
+        .welcome-card h2 { color: #0f172a; margin-top: 0; font-size: 20px; }
+        .welcome-card p { color: #475569; line-height: 1.8; font-size: 15px; margin: 20px 0; }
+        .support-info { background: #f1f5f9; padding: 15px; border-radius: 8px; display: inline-block; margin-top: 15px; border: 1px solid #e2e8f0; }
+        .footer { text-align: center; color: #94a3b8; font-size: 13px; padding: 20px; border-top: 1px solid #e2e8f0; background: #fff; }
     </style>
 </head>
 <body>
@@ -162,61 +26,22 @@
 </header>
 
 <main class="container">
-    <div class="card">
-        <h2>مشاهده فیش حقوقی پرسنل</h2>
-        <p style="color: #64748b; font-size: 14px;">جهت احراز هویت، لطفا رمز عبور خود را وارد کنید.</p>
-
-        <!-- فرم احراز هویت -->
-        <div id="auth-section">
-            <div class="form-group">
-                <label for="password">کلمه عبور (کد ملی یا رمز اختصاصی):</label>
-                <input type="password" id="password" class="form-control" placeholder="••••••••">
-            </div>
-            <button class="btn" onclick="verifyPassword()">ورود و مشاهده</button>
-            <div id="error-msg" class="error-message">کلمه عبور وارد شده صحیح نیست.</div>
-        </div>
-
-        <!-- بخش نمایش فیش پس از تایید رمز -->
-        <div id="payslip-section" class="payslip-container">
-            <h3 style="color: #10b981; margin-bottom: 20px;">هویت شما تایید شد ✅</h3>
-            
-            <!-- نمایش تصویر فیش حقوقی -->
-            <!-- به جای فایل زیر، آدرس تصویر فیش مهرزاد را قرار دهید -->
-            <img id="payslip-img" src="mehrzad-payslip.jpg" alt="فیش حقوقی" class="payslip-image">
-
+    <div class="welcome-card">
+        <h2>به سامانه فیش حقوقی خوش آمدید</h2>
+        <p>
+            همکار گرامی، برای مشاهده و دانلود فیش حقوقی خود، لطفاً از <strong>لینک اختصاصی</strong> که توسط بخش اداری/پشتیبانی در اختیار شما قرار گرفته است استفاده نمایید.
             <br>
-            <!-- دکمه دانلود مستقیم فیش -->
-            <a id="download-link" href="mehrzad-payslip.jpg" download="Fish_Mehrzad.jpg" class="download-btn">
-                 دانلود فایل فیش حقوقی
-            </a>
+            به دلایل امنیتی، دسترسی به لیست پرسنل یا جستجوی نام‌ها به صورت عمومی امکان‌پذیر نیست.
+        </p>
+        <div class="support-info">
+            راه ارتباطی با پشتیبانی اداری (بله): <strong>09201074887</strong>
         </div>
     </div>
 </main>
 
 <footer class="footer">
-    سامانه فیش حقوقی - داروخانه قوامین | پشتیبانی در پیام‌رسان بله: 09201074887
+    سامانه فیش حقوقی - داروخانه قوامین
 </footer>
-
-<script>
-    function verifyPassword() {
-        const passwordInput = document.getElementById('password').value;
-        const errorMsg = document.getElementById('error-msg');
-        const authSection = document.getElementById('auth-section');
-        const payslipSection = document.getElementById('payslip-section');
-
-        // رمز عبور اختصاصی برای این کارمند (مثلاً کدملی مهرزاد)
-        // این یک روش ساده است. برای امنیت واقعی ترجیحاً رمز پیچیده‌تری قرار دهید.
-        const correctPassword = "1234567890"; 
-
-        if (passwordInput === correctPassword) {
-            errorMsg.style.display = 'none';
-            authSection.style.display = 'none'; // فرم ورود پنهان می‌شود
-            payslipSection.style.display = 'block'; // فیش حقوقی نمایش داده می‌شود
-        } else {
-            errorMsg.style.display = 'block';
-        }
-    }
-</script>
 
 </body>
 </html>

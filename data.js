@@ -10,13 +10,13 @@ const EMPLOYEES = {
       },
       "اردیبهشت": {
         work: "",
-        slip: "",
-        pay: ""
+        slip: "1405-02-slip.jpg",
+        pay: "1405-01-pay.jpg"
       },
       "خرداد": {
         work: "",
-        slip: "",
-        pay: ""
+        slip: "1405-03-slip.jpg",
+        pay: "1405-03-pay.jpg"
       },
       "تیر": {
         work: "1405-04-work.jpg",

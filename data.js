@@ -2,131 +2,38 @@ const EMPLOYEES = {
   "100": {
     employeeName: "مهرزاد شاه رضایی",
     password: "2218558106",
-    payslips: {
-      "فروردین": {
-        work: "1405-01-work.jpg",
-        slip: "1405-01-slip.jpg",
-        pay: "1405-01-pay.jpg"
-      },
-      "اردیبهشت": {
-        work: "",
-        slip: "1405-02-slip.jpg",
-        pay: "1405-01-pay.jpg"
-      },
-      "خرداد": {
-        work: "",
-        slip: "1405-03-slip.jpg",
-        pay: "1405-03-pay.jpg"
-      },
-      "تیر": {
-        work: "1405-04-work.jpg",
-        slip: "1405-04-slip.jpg",
-        pay: "1405-04-pay.jpg"
-      },
-      "مرداد": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "شهریور": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "مهر": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "آبان": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "آذر": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "دی": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "بهمن": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "اسفند": {
-        work: "",
-        slip: "",
-        pay: ""
-      }
+    payslips: {"فروردین": {work: "1405-01-work.jpg",slip: "1405-01-slip.jpg",pay: "1405-01-pay.jpg"},
+              "اردیبهشت": {work: "",slip: "1405-02-slip.jpg",pay: "1405-01-pay.jpg"},
+                "خرداد": {work: "",slip: "1405-03-slip.jpg",pay: "1405-03-pay.jpg"},
+                 "تیر": {work: "1405-04-work.jpg",slip: "1405-04-slip.jpg",pay: "1405-04-pay.jpg"},
+                "مرداد": {work: "",slip: "",pay: ""},
+               "شهریور": {work: "",slip: "",pay: ""},
+                  "مهر": {work: "",slip: "",pay: ""},
+                  "آبان": {work: "",slip: "",pay: ""},
+                  "آذر": {work: "",slip: "",pay: ""},
+                  "دی": {work: "",slip: "",pay: ""},
+                 "بهمن": {work: "",slip: "",pay: ""},
+                 "اسفند": {work: "",slip: "",pay: ""},
     }
   },
 
   "103": { employeeName: "نیما عارف", password: "103", payslips: {} },
-  "106": { employeeName: "سید جعفر رسول مطهری", password: "0062352644", payslips: {
-      "فروردین": {
-        work: "1405-01-work.jpg",
-        slip: "1405-01-slip.jpg",
-        pay: "1405-01-pay.jpg"
-      },
-      "اردیبهشت": {
-        work: "",
-        slip: "1405-02-slip.jpg",
-        pay: "1405-01-pay.jpg"
-      },
-      "خرداد": {
-        work: "",
-        slip: "1405-03-slip.jpg",
-        pay: "1405-03-pay.jpg"
-      },
-      "تیر": {
-        work: "1405-04-work.jpg",
-        slip: "1405-04-slip.jpg",
-        pay: "1405-04-pay.jpg"
-      },
-      "مرداد": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "شهریور": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "مهر": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "آبان": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "آذر": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "دی": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "بهمن": {
-        work: "",
-        slip: "",
-        pay: ""
-      },
-      "اسفند": {
-        work: "",
-        slip: "",
-        pay: ""
+  "106": { 
+    employeeName: "سید جعفر رسول مطهری",
+    password: "0062352644",
+    payslips: {
+    payslips: {"فروردین": {work: "1405-01-work.jpg",slip: "1405-01-slip.jpg",pay: "1405-01-pay.jpg"},
+              "اردیبهشت": {work: "",slip: "1405-02-slip.jpg",pay: "1405-01-pay.jpg"},
+                "خرداد": {work: "",slip: "1405-03-slip.jpg",pay: "1405-03-pay.jpg"},
+                  "تیر": {work: "1405-04-work.jpg",slip: "1405-04-slip.jpg",pay: "1405-04-pay.jpg"},
+                 "مرداد": {work: "",slip: "",pay: ""},
+                "شهریور": {work: "",slip: "",pay: ""},
+                  "مهر": {work: "",slip: "",pay: ""},
+                  "آبان": {work: "",slip: "",pay: ""},
+                  "آذر": {work: "",slip: "",pay: ""},
+                  "دی": {work: "",slip: "",pay: ""},
+                 "بهمن": {work: "",slip: "",pay: ""},
+                 "اسفند": {work: "",slip: "",pay: ""},
       }} },
   "109": { employeeName: "سید عبدالرسول مطهری", password: "109", payslips: {} },
   "119": { employeeName: "کیوان ردایی", password: "119", payslips: {} },

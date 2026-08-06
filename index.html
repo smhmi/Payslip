@@ -1,1 +1,476 @@
-2
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سامانه فیش حقوقی - داروخانه شبانه‌روزی قوامین</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;700;800&display=swap');
+
+        :root {
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --text-gold: #fbbf24;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Branding Header */
+        .header-brand {
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+
+        .payroll-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), #059669);
+            margin: 0 auto 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px var(--primary-glow);
+        }
+
+        .header-brand h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 4px;
+            color: #fff;
+        }
+
+        .header-brand span { 
+            color: var(--primary); 
+            font-size: 13px; 
+            font-weight: 600; 
+            letter-spacing: 1px; 
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 500px; 
+        }
+
+        /* Luxury Glass Card */
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 25px 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Login Inputs */
+        .input-group {
+            margin-bottom: 16px;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-dim);
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 14px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        .btn-login:active { transform: scale(0.98); }
+
+        /* Dashboard Elements */
+        .user-welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .user-welcome h2 { font-size: 18px; margin: 0; color: var(--text-gold); }
+        .user-welcome span { font-size: 12px; color: var(--text-dim); }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .section-label {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin: 0 0 10px 0;
+            display: block;
+        }
+
+        /* Month Selector Grid */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .month-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 4px;
+            border-radius: 12px;
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .month-btn.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .month-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+        /* Document Type Tabs */
+        .doc-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .doc-tab-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 6px;
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .doc-tab-btn.active {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* Inline Image Display Box */
+        .image-preview-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 10px;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .btn-download {
+            margin-top: 12px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn-download:hover { background: var(--primary); color: #000; }
+
+        #error-txt {
+            color: var(--danger);
+            text-align: center;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .placeholder-text {
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-brand">
+    <div class="payroll-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+    </div>
+    <h1>سامانه حقوق و دستمزد</h1>
+    <span>داروخانه شبانه‌روزی قوامین</span>
+</div>
+
+<div class="container">
+    <div class="main-card">
+        
+        <!-- فرم ورود (صفحه اول) -->
+        <div id="login-zone">
+            <div class="input-group">
+                <label>کد پرسنلی</label>
+                <input type="number" id="emp-code" class="input-field" placeholder="مثلاً: 100">
+            </div>
+
+            <div class="input-group">
+                <label>کد ملی (رمز عبور)</label>
+                <input type="password" id="id-input" class="input-field" maxlength="10" placeholder="کد ملی ده رقمی">
+            </div>
+
+            <button class="btn-login" onclick="handleLogin()">ورود به سامانه</button>
+            <div id="error-txt">❌ کد پرسنلی یا کد ملی اشتباه است.</div>
+        </div>
+
+        <!-- پنل کاربر (صفحه دوم) -->
+        <div id="dashboard-zone" style="display: none;">
+            
+            <div class="user-welcome">
+                <div>
+                    <h2 id="user-title">نام کارمند</h2>
+                    <span id="user-id-sub">کد پرسنلی: --</span>
+                </div>
+                <button class="btn-logout" onclick="logout()">خروج</button>
+            </div>
+
+            <!-- انتخاب ماه -->
+            <span class="section-label">۱. انتخاب ماه:</span>
+            <div class="month-grid" id="month-grid"></div>
+
+            <!-- انتخاب نوع مدرک -->
+            <div id="doc-tabs-section" style="display: none;">
+                <span class="section-label">۲. انتخاب نوع مدرک:</span>
+                <div class="doc-tabs">
+                    <button class="doc-tab-btn" id="tab-work" onclick="selectDocType('work')">⏱️ گزارش کارکرد</button>
+                    <button class="doc-tab-btn" id="tab-slip" onclick="selectDocType('slip')">🧾 فیش حقوقی</button>
+                    <button class="doc-tab-btn" id="tab-pay" onclick="selectDocType('pay')">💳 سند واریز</button>
+                </div>
+            </div>
+
+            <!-- نمایش تصویر پایین صفحه -->
+            <div class="image-preview-box" id="preview-box">
+                <span class="placeholder-text" id="preview-placeholder">لطفاً ماه و نوع مدرک را انتخاب کنید.</span>
+                <img id="payslip-img" src="" alt="تصویر سند">
+                <a id="download-link" href="#" download class="btn-download" style="display: none;">📥 دانلود/مشاهده کیفیت اصلی</a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+    let currentEmpData = null;
+    let currentEmpId = null;
+    let selectedMonth = null;
+    let selectedDocType = null;
+
+    // ورود به سیستم
+    function handleLogin() {
+        const empCode = document.getElementById('emp-code').value.trim();
+        const nationalId = document.getElementById('id-input').value.trim();
+        const errorTxt = document.getElementById('error-txt');
+
+        if (!empCode || !nationalId) {
+            errorTxt.innerText = '❌ لطفاً هر دو کد را وارد کنید.';
+            errorTxt.style.display = 'block';
+            return;
+        }
+
+        // بررسی وجود کاربر در فایل data.js
+        if (typeof EMPLOYEES !== 'undefined' && EMPLOYEES[empCode]) {
+            const user = EMPLOYEES[empCode];
+            if (user.password === nationalId) {
+                currentEmpData = user;
+                currentEmpId = empCode;
+                errorTxt.style.display = 'none';
+                
+                // ورود موفق -> نمایش پنل
+                document.getElementById('login-zone').style.display = 'none';
+                document.getElementById('dashboard-zone').style.display = 'block';
+                document.getElementById('user-title').innerText = user.employeeName;
+                document.getElementById('user-id-sub').innerText = 'کد پرسنلی: ' + empCode;
+                
+                initMonths();
+            } else {
+                errorTxt.innerText = '❌ کد ملی (رمز عبور) نادرست است.';
+                errorTxt.style.display = 'block';
+            }
+        } else {
+            errorTxt.innerText = '❌ کد پرسنلی یافت نشد.';
+            errorTxt.style.display = 'block';
+        }
+    }
+
+    // خروج
+    function logout() {
+        location.reload();
+    }
+
+    // ساخت لیست ماه‌ها
+    function initMonths() {
+        const grid = document.getElementById('month-grid');
+        grid.innerHTML = '';
+        const months = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+
+        months.forEach(m => {
+            const btn = document.createElement('button');
+            btn.className = 'month-btn';
+            btn.innerText = m;
+            const monthData = currentEmpData.payslips ? currentEmpData.payslips[m] : null;
+
+            if (!monthData || Object.keys(monthData).length === 0) {
+                btn.disabled = true;
+            } else {
+                btn.onclick = () => {
+                    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedMonth = m;
+                    
+                    // نمایش بخش تب‌ها
+                    document.getElementById('doc-tabs-section').style.display = 'block';
+                    
+                    // پیش‌فرض روی اولین سند موجود می‌رود یا فقط گزینه‌ها را فعال می‌کند
+                    updateDocTabs(monthData);
+                };
+            }
+            grid.appendChild(btn);
+        });
+    }
+
+    // به‌روزرسانی تب‌های مدرک (کارکرد / فیش / واریز)
+    function updateDocTabs(monthData) {
+        const tabWork = document.getElementById('tab-work');
+        const tabSlip = document.getElementById('tab-slip');
+        const tabPay = document.getElementById('tab-pay');
+
+        tabWork.style.display = monthData.work ? 'block' : 'none';
+        tabSlip.style.display = monthData.slip ? 'block' : 'none';
+        tabPay.style.display = monthData.pay ? 'block' : 'none';
+
+        // اگر نوع قبلی وجود داشت انتخاب شود، وگرنه اولین نوع موجود انتخاب شود
+        if (monthData.slip) {
+            selectDocType('slip');
+        } else if (monthData.work) {
+            selectDocType('work');
+        } else if (monthData.pay) {
+            selectDocType('pay');
+        }
+    }
+
+    // انتخاب نوع مدرک و نمایش تصویر مستقیم در پایین
+    function selectDocType(type) {
+        selectedDocType = type;
+
+        // تغییر استایل تب‌ها
+        document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active'));
+        const activeTab = document.getElementById('tab-' + type);
+        if (activeTab) activeTab.classList.add('active');
+
+        // دریافت اسم فایل از data.js
+        const fileName = currentEmpData.payslips[selectedMonth][type];
+        if (fileName) {
+            // ساخت مسیر تصویر با پارامتر ضدکش
+            const imgPath = `employees/${currentEmpId}/${fileName}?v=${Date.now()}`;
+            
+            const imgElement = document.getElementById('payslip-img');
+            const placeholder = document.getElementById('preview-placeholder');
+            const downloadBtn = document.getElementById('download-link');
+
+            imgElement.src = imgPath;
+            imgElement.style.display = 'block';
+            placeholder.style.display = 'none';
+
+            downloadBtn.href = imgPath;
+            downloadBtn.style.display = 'inline-block';
+        }
+    }
+
+    // کلید Enter برای ورود سریع
+    document.getElementById("id-input").addEventListener("keypress", (e) => { if(e.key === "Enter") handleLogin(); });
+    document.getElementById("emp-code").addEventListener("keypress", (e) => { if(e.key === "Enter") handleLogin(); });
+</script>
+</body>
+</html>

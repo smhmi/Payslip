@@ -1,1 +1,371 @@
-<h1 style="color:red; font-size:40px;">TEST 12345</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سامانه فیش حقوقی قوامین</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #10b981;
+            --danger: #f43f5e;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .app-header {
+            padding: 30px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4f46e5, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-header p { margin: 5px 0 0; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+        .main-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            padding: 0 15px;
+            flex: 1;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 30px 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .emp-name-badge {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        h2 { font-size: 20px; margin: 0 0 10px; font-weight: 700; }
+
+        /* Inputs & Buttons */
+        .input-group { margin-bottom: 20px; text-align: right; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); padding-right: 5px; }
+        
+        .modern-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid transparent;
+            border-radius: 18px;
+            background: #fff;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .primary-btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .primary-btn:active { transform: translateY(0); }
+
+        /* Month Grid */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .month-chip {
+            padding: 12px 5px;
+            background: #fff;
+            border: 1px solid #eef2f6;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .month-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .month-chip:disabled { opacity: 0.35; cursor: not-allowed; }
+
+        /* Doc Selection */
+        .doc-nav {
+            display: flex;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            gap: 5px;
+        }
+
+        .doc-nav-btn {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            background: transparent;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-muted);
+        }
+
+        .doc-nav-btn.active { background: white; color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .doc-nav-btn:disabled { opacity: 0.3; }
+
+        /* Viewer */
+        .viewer-area {
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .payslip-img {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .download-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .download-link:hover { opacity: 0.9; }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        #error-msg { color: var(--danger); font-size: 13px; margin-top: 12px; font-weight: 600; display: none; }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .month-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <h1>قوامین پِی</h1>
+    <p>سامانه هوشمند فیش حقوقی</p>
+</header>
+
+<main class="main-container">
+    <div class="glass-card">
+        <center>
+            <div class="emp-name-badge" id="emp-badge">در حال بررسی...</div>
+            <h2 id="emp-title">خوش آمدید</h2>
+        </center>
+
+        <!-- Auth Section -->
+        <div id="auth-section" style="margin-top: 20px;">
+            <div class="input-group">
+                <label>رمز عبور شما</label>
+                <input type="password" id="password" class="modern-input" placeholder="••••••••">
+                <div id="error-msg">❌ کلمه عبور اشتباه است.</div>
+            </div>
+            <button class="primary-btn" onclick="verifyPassword()">تایید و ورود</button>
+        </div>
+
+        <!-- Content Section -->
+        <div id="payslip-section" style="display: none;">
+            <p style="text-align: center; font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 20px;">✅ هویت شما تایید شد</p>
+            
+            <div class="month-grid" id="months-wrapper"></div>
+
+            <div id="doc-nav-wrapper" class="doc-nav" style="display: none;">
+                <button id="btn-work" class="doc-nav-btn" onclick="selectDocType('work')">⏱️ کارکرد</button>
+                <button id="btn-slip" class="doc-nav-btn" onclick="selectDocType('slip')">💵 فیش</button>
+                <button id="btn-pay" class="doc-nav-btn" onclick="selectDocType('pay')">💳 واریز</button>
+            </div>
+
+            <div id="viewer-box" style="display: none;">
+                <div class="viewer-area">
+                    <img id="payslip-img" src="" alt="مدرک" class="payslip-img">
+                    <a id="download-link" href="" download="" class="download-link">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        ذخیره در گوشی
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    داروخانه شبانه‌روزی قوامین <br>
+    پشتیبانی: 09201074887
+</footer>
+
+<script src="data.js"></script>
+<script>
+    const employeeId = new URLSearchParams(window.location.search).get("id");
+    const CONFIG = EMPLOYEES[employeeId];
+
+    if (!CONFIG) {
+        document.getElementById("emp-badge").innerText = "خطا";
+        document.getElementById("emp-title").innerText = "لینک نامعتبر";
+        document.getElementById("auth-section").innerHTML = "<p style='color:red; text-align:center;'>دسترسی مقدور نیست.</p>";
+    } else {
+        document.getElementById("emp-badge").innerText = "پرسنل: " + employeeId;
+        document.getElementById("emp-title").innerText = CONFIG.employeeName;
+    }
+
+    let currentSelectedMonth = "";
+    let currentSelectedMonthData = null;
+
+    function verifyPassword() {
+        const pass = document.getElementById("password").value;
+        if (pass === CONFIG.password) {
+            document.getElementById("auth-section").style.display = "none";
+            document.getElementById("payslip-section").style.display = "block";
+            buildMonths();
+        } else {
+            document.getElementById("error-msg").style.display = "block";
+        }
+    }
+
+    function buildMonths() {
+        const wrapper = document.getElementById("months-wrapper");
+        const months = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+        
+        months.forEach(m => {
+            const btn = document.createElement("button");
+            btn.className = "month-chip";
+            btn.innerText = m;
+            const data = CONFIG.payslips[m];
+            if (!data || !(data.work || data.slip || data.pay)) {
+                btn.disabled = true;
+            } else {
+                btn.onclick = () => {
+                    document.querySelectorAll('.month-chip').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentSelectedMonth = m;
+                    currentSelectedMonthData = data;
+                    showMonthDocs();
+                };
+            }
+            wrapper.appendChild(btn);
+        });
+    }
+
+    function showMonthDocs() {
+        document.getElementById("doc-nav-wrapper").style.display = "flex";
+        document.getElementById("btn-work").disabled = !currentSelectedMonthData.work;
+        document.getElementById("btn-slip").disabled = !currentSelectedMonthData.slip;
+        document.getElementById("btn-pay").disabled = !currentSelectedMonthData.pay;
+
+        if (currentSelectedMonthData.work) selectDocType('work');
+        else if (currentSelectedMonthData.slip) selectDocType('slip');
+        else if (currentSelectedMonthData.pay) selectDocType('pay');
+    }
+
+    function selectDocType(type) {
+        document.querySelectorAll('.doc-nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById("btn-" + type).classList.add("active");
+
+        const file = currentSelectedMonthData[type];
+        const path = `employees/${employeeId}/${file}`;
+        
+        document.getElementById("viewer-box").style.display = "block";
+        document.getElementById("payslip-img").src = path;
+        document.getElementById("download-link").href = path;
+        document.getElementById("download-link").download = `${type}_${currentSelectedMonth}.jpg`;
+    }
+
+    // ورود با دکمه اینتر
+    document.getElementById("password").addEventListener("keypress", (e) => { if(e.key === "Enter") verifyPassword(); });
+</script>
+</body>
+</html>

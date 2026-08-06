@@ -1,1 +1,51 @@
-11111111111111
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه حقوق قوامین</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: Tahoma, sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: #1e293b; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; background: #334155; color: white; text-align: center; box-sizing: border-box;}
+        button { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #10b981; color: black; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="login-zone">
+    <h2>ورود به سامانه</h2>
+    <input type="number" id="emp-code" placeholder="کد پرسنلی">
+    <input type="password" id="id-input" placeholder="کد ملی (رمز عبور)">
+    <button onclick="handleLogin()">ورود</button>
+    <p id="error-txt" style="color: red; display: none;">کد پرسنلی یا کد ملی اشتباه است.</p>
+</div>
+
+<!-- همان کدهای قبلی که برای داشبورد نوشتیم (در جایگذاری، بقیه کدهای نمایش داشبورد را بعد از این قرار دهید) -->
+<div id="dashboard-zone" style="display: none;">
+    <!-- اینجا کدهای نمایش ماه و تصاویر که قبلاً نوشتیم را قرار دهید -->
+</div>
+
+<script src="data.js"></script>
+<script>
+    function handleLogin() {
+        const empCode = document.getElementById('emp-code').value;
+        const nationalId = document.getElementById('id-input').value;
+        
+        // EMPLOYEES همان آبجکت بزرگی است که در data.js دارید
+        const user = EMPLOYEES[empCode];
+        
+        if (user && user.password === nationalId) {
+            // ورود موفق
+            document.getElementById('login-zone').style.display = 'none';
+            document.getElementById('dashboard-zone').style.display = 'block';
+            // ادامه کدهای نمایش اطلاعات کاربر...
+        } else {
+            document.getElementById('error-txt').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
+

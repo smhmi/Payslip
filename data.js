@@ -1,4 +1,3 @@
-```javascript
 const EMPLOYEES = {
   "100": {
     employeeName: "مهرزاد شاه رضایی",

@@ -172,7 +172,7 @@ const EMPLOYEES = {
 
   "148": {
     employeeName: "محمد رضا بالسینی",
-    password: "148",
+    password: "0065079213",
     payslips: {
       "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
       "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},
@@ -712,7 +712,7 @@ const EMPLOYEES = {
 
   "251": {
     employeeName: "امیر حسین محمدی",
-    password: "251",
+    password: "0151008868",
     payslips: {
       "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
       "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},
@@ -825,7 +825,7 @@ const EMPLOYEES = {
 
   "260": {
     employeeName: "سعیده سادات پرپوچی",
-    password: "260",
+    password: "0602435064",
     payslips: {
       "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
       "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},

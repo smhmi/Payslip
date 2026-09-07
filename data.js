@@ -935,5 +935,24 @@ const EMPLOYEES = {
       "اسفند": {work: "", slip: "", pay: ""},
     }
   },
+
+    "9": {
+    employeeName: "مریم صابری نژاد",
+    password: "2660187861",
+    payslips: {
+      "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
+      "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},
+      "خرداد": {work: "1405-03-work.jpg", slip: "1405-03-slip.jpg", pay: "1405-03-pay.jpg"},
+      "تیر": {work: "1405-04-work.jpg", slip: "1405-04-slip.jpg", pay: "1405-04-pay.jpg"},
+      "مرداد": {work: "1405-05-work.jpg", slip: "1405-05-slip.jpg", pay: "1405-05-pay.jpg"},
+      "شهریور": {work: "", slip: "", pay: ""},
+      "مهر": {work: "", slip: "", pay: ""},
+      "آبان": {work: "", slip: "", pay: ""},
+      "آذر": {work: "", slip: "", pay: ""},
+      "دی": {work: "", slip: "", pay: ""},
+      "بهمن": {work: "", slip: "", pay: ""},
+      "اسفند": {work: "", slip: "", pay: ""},
+    }
+  },
   
 };

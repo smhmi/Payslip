@@ -672,7 +672,7 @@ const EMPLOYEES = {
 
     "249": {
     employeeName: "امیر مهدی بالسینی",
-    password: "249",
+    password: "0151008868",
     payslips: {
       "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
       "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},
@@ -712,7 +712,7 @@ const EMPLOYEES = {
 
   "251": {
     employeeName: "امیر حسین محمدی",
-    password: "0151008868",
+    password: "9852365896",
     payslips: {
       "فروردین": {work: "1405-01-work.jpg", slip: "1405-01-slip.jpg", pay: "1405-01-pay.jpg"},
       "اردیبهشت": {work: "1405-02-work.jpg", slip: "1405-02-slip.jpg", pay: "1405-02-pay.jpg"},
